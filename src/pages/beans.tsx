@@ -1,47 +1,33 @@
 import type { NextPage } from 'next';
-import useSWR from 'swr';
-import axios from 'axios';
+import getBeans from '@/api/getBeans';
+import Link from 'next/link';
 
 const Beans: NextPage = () => {
-  const config = {
-    headers: {
-      'X-MICROCMS-API-KEY': `${process.env.NEXT_PUBLIC_MICROCMS_KEY}`,
-    },
-  };
-  const getFetcher = (url: string) => axios.get(url, config).then((res) => res.data);
-  const { data, error } = useSWR('https://c0fee.microcms.io/api/v1/beans', getFetcher);
+  const { data, error } = getBeans();
 
   if (error) return <div>An error has occurred.</div>;
   if (!data) return <div>Loading...</div>;
 
   return (
-    <>
-      {data.contents.map((bean: any) => (
-        <>
-          <div>bean id: {bean.id}</div>
-          <ul key={bean.id}>
-            <li> 生産国: {bean.country}</li>
-            <li> 地域: {bean.area}</li>
-            <li> 農園: {bean.farm}</li>
-            <li> 焙煎: {bean.roast[0]}</li>
-            <li> 焙煎日{bean.roast_date}</li>
-            <img src={bean.image.url} />
-          </ul>
-        </>
+    <div className='grid gap-10 p-10 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4'>
+      {data.map((bean: any) => (
+        <div key={bean.id}>
+          <div className='max-w-sm overflow-hidden rounded shadow-lg'>
+            <Link href={`/beans/${bean.id}`}>
+              <img src={bean.bean_image.url} alt={bean.country} />
+            </Link>
+            <div className='px-6 py-4'>
+              <div className='mb-2 text-xl font-bold'>{bean.country}</div>
+              <p className='text-base text-gray-700'>{bean.address}</p>
+              <span>{bean.area}</span>
+              <span>{bean.farm}</span>
+              <p>{bean.roast}</p>
+            </div>
+          </div>
+        </div>
       ))}
-    </>
+    </div>
   );
 };
-
-// Beans.getInitialProps = async () => {
-//   const config = {
-//     headers: {
-//       'X-MICROCMS-API-KEY': '23253550226d4c27a56b2592dbd17124113c',
-//     },
-//   };
-//   const getFetcher = (url: string) => axios.get(url, config).then((res) => res.data);
-//   const { data, error } = useSWR('https://c0fee.microcms.io/api/v1/beans', getFetcher);
-//   return { beans: data };
-// };
 
 export default Beans;

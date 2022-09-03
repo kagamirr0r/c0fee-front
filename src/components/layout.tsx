@@ -14,7 +14,7 @@ const layout = ({ children }: Props) => {
         <title>C0FEE</title>
       </Head>
       <Header />
-      <main>{children}</main>
+      <main className='container mx-auto'>{children}</main>
       <Footer />
     </>
   );

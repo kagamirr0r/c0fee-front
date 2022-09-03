@@ -1,35 +1,29 @@
 import type { NextPage } from 'next';
-import useSWR from 'swr';
-import axios from 'axios';
+import getRecipes from '@/api/getRecipes';
+import Link from 'next/link';
 
-const recipes: NextPage = () => {
-  const config = {
-    headers: {
-      'X-MICROCMS-API-KEY': `${process.env.NEXT_PUBLIC_MICROCMS_KEY}`,
-    },
-  };
-  const getFetcher = (url: string) => axios.get(url, config).then((res) => res.data);
-  const { data, error } = useSWR('https://c0fee.microcms.io/api/v1/recipes', getFetcher);
+const Recipes: NextPage = () => {
+  const { data, error } = getRecipes();
 
   if (error) return <div>An error has occurred.</div>;
   if (!data) return <div>Loading...</div>;
   return (
-    <>
-      {data.contents.map((recipe: any) => (
-        <>
-          <div>recipe id: {recipe.id}</div>
-          <ul key={recipe.id}>
-            <li> hot or ice: {recipe.hot_ice}</li>
-            <li> 挽き方: {recipe.grind}</li>
-            <li> 湯温: {recipe.temperature}</li>
-            <li> 豆の量: {recipe.bean_amount}</li>
-            <li> 抽出量{recipe.extracted_amount}</li>
-            <li> 抽出方法{recipe.extraction}</li>
-          </ul>
-        </>
+    <div className='grid gap-10 p-10 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4'>
+      {data.map((recipe: any) => (
+        <div key={recipe.id}>
+          <div className='max-w-sm overflow-hidden rounded shadow-lg'>
+            <Link href={`/recipes/${recipe.id}`}>
+              <img src={recipe.recipe_image.url} alt={recipe.country} />
+            </Link>
+            <div className='px-6 py-4'>
+              <div className='mb-2 text-xl font-bold'>{recipe.extraction}</div>
+              <p className='text-base text-gray-700'>{recipe.grind}</p>
+            </div>
+          </div>
+        </div>
       ))}
-    </>
+    </div>
   );
 };
 
-export default recipes;
+export default Recipes;
