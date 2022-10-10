@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Header from './header';
 import Footer from './footer';
+
 import { ReactNode } from 'react';
 
 type Props = {
@@ -14,7 +15,7 @@ const layout = ({ children }: Props) => {
         <title>C0FEE</title>
       </Head>
       <Header />
-      <main className='container mx-auto'>{children}</main>
+      <main>{children}</main>
       <Footer />
     </>
   );
