@@ -6,7 +6,7 @@ const header = () => {
       <nav className='grid grid-cols-5 bg-red-500 p-5 font-bold text-white'>
         <div>
           <Link href='/'>
-            <span className='brand-logo'>C0FEE</span>
+            <p className='brand-logo'>C0FEE</p>
           </Link>
         </div>
         <div className='text-center'>

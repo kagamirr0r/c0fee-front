@@ -1,18 +1,18 @@
-import type { NextPage } from 'next';
-import getBeans from '@/api/getBeans';
+'use client';
+// import getBeans from '@/api/getBeans';
 import Link from 'next/link';
 import { PlusIcon } from '@heroicons/react/24/solid';
 
-const Beans: NextPage = () => {
-  const { data, error } = getBeans();
+const Beans = (beans: any) => {
+  // const { data, error } = getBeans();
 
-  if (error) return <div>An error has occurred.</div>;
-  if (!data) return <div>Loading...</div>;
+  // if (error) return <div>An error has occurred.</div>;
+  // if (!data) return <div>Loading...</div>;
   return (
     <>
       <div className='container mx-auto'>
         <div className='grid gap-10 p-10 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4'>
-          {data.map((bean: any) => (
+          {beans.map((bean: any) => (
             <div key={bean.id}>
               <div className='max-w-sm overflow-hidden rounded shadow-lg'>
                 <Link href={`/beans/${bean.id}`}>
