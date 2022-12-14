@@ -1,4 +1,3 @@
-//
 import { useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router'
@@ -105,7 +104,6 @@ const Form: NextPage = () => {
             <Autocomplete
               fullWidth
               options={data[0]}
-              getOptionLabel={(option) => option?.name}
               renderInput={(params) => <TextField {...params} label='user' />}
               onChange={(event, value) => {
                 setValue('user', value, {
